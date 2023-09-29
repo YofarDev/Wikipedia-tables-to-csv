@@ -34,7 +34,7 @@
     let tables = document.getElementsByTagName('table');
 
     // Get the current Wikipedia page title
-    let pageTitle = document.getElementById('firstHeading').innerText;
+    let pageTitle = document.getElementById('firstHeading').innerText.replace(/ /g, '_');
 
     // Iterate over tables
     for (let table of tables) {
@@ -43,6 +43,17 @@
         button.innerText = 'Download as CSV';
         button.onclick = function() {
             let csv = '';
+
+            // Get the table title
+            let tableTitle = 'table';
+let prevNode = table.previousElementSibling;
+while(prevNode) {
+    if(prevNode.nodeName.toLowerCase() === 'h3') {
+        tableTitle = prevNode.querySelector('.mw-headline').innerText.replace(/ /g, '_');
+        break;
+    }
+    prevNode = prevNode.previousElementSibling;
+}
 
             // Iterate over rows
             for (let row of table.rows) {
@@ -61,7 +72,7 @@
             }
 
             // Download the data
-            download(csv, pageTitle + '.csv', 'text/csv');
+            download(csv, tableTitle + ' - ' + pageTitle + '.csv', 'text/csv');
         };
 
         // Add download button to the page
