@@ -8,22 +8,22 @@
 // @grant        none
 // ==/UserScript==
 
-(function() {
+(function () {
     'use strict';
 
     // Function to download data to a file
     function download(data, filename, type) {
-        var file = new Blob([data], {type: type});
+        var file = new Blob([data], { type: type });
         if (window.navigator.msSaveOrOpenBlob) // IE10+
             window.navigator.msSaveOrOpenBlob(file, filename);
         else { // Others
             var a = document.createElement("a"),
-                    url = URL.createObjectURL(file);
+                url = URL.createObjectURL(file);
             a.href = url;
             a.download = filename;
             document.body.appendChild(a);
             a.click();
-            setTimeout(function() {
+            setTimeout(function () {
                 document.body.removeChild(a);
                 window.URL.revokeObjectURL(url);
             }, 0);
@@ -41,19 +41,19 @@
         // Create download button
         let button = document.createElement('button');
         button.innerText = 'Download as CSV';
-        button.onclick = function() {
+        button.onclick = function () {
             let csv = '';
 
             // Get the table title
             let tableTitle = 'table';
-let prevNode = table.previousElementSibling;
-while(prevNode) {
-    if(prevNode.nodeName.toLowerCase() === 'h3') {
-        tableTitle = prevNode.querySelector('.mw-headline').innerText.replace(/ /g, '_');
-        break;
-    }
-    prevNode = prevNode.previousElementSibling;
-}
+            let prevNode = table.previousElementSibling;
+            while (prevNode) {
+                if (prevNode.nodeName.toLowerCase() === 'h3') {
+                    tableTitle = prevNode.querySelector('.mw-headline').innerText.replace(/ /g, '_');
+                    break;
+                }
+                prevNode = prevNode.previousElementSibling;
+            }
 
             // Iterate over rows
             for (let row of table.rows) {
