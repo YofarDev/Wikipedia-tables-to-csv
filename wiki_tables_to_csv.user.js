@@ -33,6 +33,9 @@
     // Get all tables
     let tables = document.getElementsByTagName('table');
 
+    // Get the current Wikipedia page title
+    let pageTitle = document.getElementById('firstHeading').innerText;
+
     // Iterate over tables
     for (let table of tables) {
         // Create download button
@@ -58,11 +61,10 @@
             }
 
             // Download the data
-            download(csv, 'data.csv', 'text/csv');
+            download(csv, pageTitle + '.csv', 'text/csv');
         };
 
         // Add download button to the page
         table.parentNode.insertBefore(button, table);
     }
 })();
-
